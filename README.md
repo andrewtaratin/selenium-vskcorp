@@ -11,7 +11,7 @@ See also:
 1) Intellij Community
 2) Java 17  
 3) перейти в идею и нажать в левом верхнем углу file - new - project from version control  
-4) вставить туда ссылку
+4) вставить туда ссылку https://github.com/andrewtaratin/selenium-vskcorp.git
 5) дождаться когда идея всё скачает
 6) проверить что граддл настроен правильно file - settings - Build - Build tools - Gradle: проверить что в строчке Gradle Jvm стоит 17 джава
 7) скачать свой вебдрайвер под версию своего браузера и вставить его в папку resources
