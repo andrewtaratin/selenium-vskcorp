@@ -4,17 +4,18 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 public class WebDriverConfig {
     public static ChromeDriver init() {
         String absolutePathToChromeDriver =
-                new File("src/main/resources/chromedriver-125.0.6422.141/chromedriver").getAbsolutePath();
+                new File("src/main/resources/chromedriver-win64-125.0.6422.141/chromedriver.exe").getAbsolutePath();
 
         System.setProperty("webdriver.chrome.driver",absolutePathToChromeDriver);
 
         ChromeOptions options = new ChromeOptions();
 
-        options.addArguments("--enable"); //--enable - open browser OR --hidden for silent version
+        options.addArguments("--enable"); //--enable - open browser OR --headless for silent version
         options.addArguments("--start-maximized");
         options.addArguments("--test-type");
         options.addArguments("--no-sandbox");
@@ -34,7 +35,11 @@ public class WebDriverConfig {
 
         options.setExperimentalOption("useAutomationExtension", false);
         options.addArguments("--remote-debugging-port=9225");
+
         ChromeDriver driver = new ChromeDriver(options);
+        driver.manage().window().maximize(); //open browser for all monitor
+        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS); //wait until the page opens
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); //wait until web-element on page is loading
         return driver;
     }
 }

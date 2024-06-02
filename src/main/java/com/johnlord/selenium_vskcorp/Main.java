@@ -9,6 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 
 import java.io.FileNotFoundException;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class Main {
@@ -26,25 +27,25 @@ public class Main {
         find("(//input[@type='tel'])[4]").sendKeys("200250");
 
         //Открываем выпадающий список "Выберите деятельность" и выбираем из предложенного и закрываем список чтобы не мешал
-        find("(//div[@class='p-accordion-header']//a)[2]").click();
-        find("//label[@for='option-административные здания, офисы, помещения, кабинеты']").click();
-        find("(//div[@class='p-accordion-header p-highlight']//a)[3]").click();
+        enableClick(find("//a[@id='pv_id_6_header']//span[1]"));
+        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+        enableClick(find("(//div[@class='p-radiobutton-box'])[2]"));
+        find("//a[@id='pv_id_6_header']//span[1]").click();
 
         find("(//input[@type='tel'])[5]").sendKeys("199"); //метры
-        find("(//div[contains(@class,'app-checkbox mr-10')]//div)[2]").click(); //галочка
+        enableClick(find("(//div[contains(@class,'app-checkbox mr-10')]//div)[2]")); //галка
 
         scrollPage(); //слегка листаем страницу вниз
 
         //Действия чтобы нажать кнопку
-        WebElement calculateButton = find("//button[@type='submit']//span");
-        calculateButton.click();
+        find("//span[text()='Рассчитать']").click();
         scrollPage(); //слегка листаем страницу вниз
 
-        Thread.sleep(2000); //задержка перед закрытием страницы - ТОЛЬКО ДЛЯ РУЧНОГО ТЕСТИРОВАНИЯ!!!
-
+        //получаем сумму со страницы
         String calcSum = find("//div[contains(@class,'fs-24 c-p')]").getText();
         log.info("Sum of calculate: {}", calcSum);
 
+        //     Thread.sleep(2000); //задержка перед закрытием страницы - ТОЛЬКО ДЛЯ РУЧНОГО ТЕСТИРОВАНИЯ!!!
 
         //Внимание! Всегда надо закрывать тестовый браузер иначе программа будет работать некорректно
         driver.close(); //закрываем браузер чтобы освободить ресурсы.
@@ -58,5 +59,10 @@ public class Main {
     private static void scrollPage() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy(0,150)", "");
+    }
+
+    private static void enableClick(WebElement element) {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).click().perform();
     }
 }
