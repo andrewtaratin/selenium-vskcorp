@@ -37,7 +37,7 @@ public class WebDriverConfig {
         options.addArguments("--remote-debugging-port=9225");
 
         ChromeDriver driver = new ChromeDriver(options);
-        driver.manage().window().maximize(); //open browser for all monitor
+       // driver.manage().window().maximize(); //open browser for all monitor
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10)); //wait until the page opens
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); //wait until web-element on page is loading
         return driver;

@@ -33,16 +33,17 @@ public class Main {
 //        Thread.sleep(200);
         enableClick(find("//*[@id=\"pv_id_6_header\"]"));
 
-        Thread.sleep(1000);
+        //        Thread.sleep(1000);
 
         find("(//input[@type='tel'])[5]").sendKeys("199"); //метры
         enableClick(find("(//div[contains(@class,'app-checkbox mr-10')]//div)[2]"));
 
         scrollPage(); //слегка листаем страницу вниз
 
-        //Действия чтобы нажать кнопку
-        WebElement calculateButton = find("//button[@type='submit']//span");
-        enableClick(calculateButton);
+        //TODO - add method who send click and when (if method not success) send enableClick()
+        enableClick(find("//button[@type='submit']//span"));
+        find("//button[@type='submit']//span").click();
+
         scrollPage(); //слегка листаем страницу вниз
 
         Thread.sleep(2000); //задержка перед закрытием страницы - ТОЛЬКО ДЛЯ РУЧНОГО ТЕСТИРОВАНИЯ!!!
@@ -55,6 +56,7 @@ public class Main {
         //Внимание! Всегда надо закрывать тестовый браузер иначе программа будет работать некорректно
         driver.close(); //закрываем браузер чтобы освободить ресурсы.
     }
+
 
     private static WebElement find(String xPath) {
         return driver.findElement(By.xpath(xPath));
