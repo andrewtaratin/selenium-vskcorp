@@ -4,14 +4,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.File;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 public class WebDriverConfig {
     public static ChromeDriver init() {
         String absolutePathToChromeDriver =
                 new File("src/main/resources/chromedriver-win64-125.0.6422.141/chromedriver.exe").getAbsolutePath();
 
-        System.setProperty("webdriver.chrome.driver",absolutePathToChromeDriver);
+        System.setProperty("webdriver.chrome.driver", absolutePathToChromeDriver);
 
         ChromeOptions options = new ChromeOptions();
 
@@ -38,8 +38,8 @@ public class WebDriverConfig {
 
         ChromeDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize(); //open browser for all monitor
-        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS); //wait until the page opens
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); //wait until web-element on page is loading
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10)); //wait until the page opens
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); //wait until web-element on page is loading
         return driver;
     }
 }

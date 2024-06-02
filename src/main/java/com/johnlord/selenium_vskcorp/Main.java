@@ -9,7 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 
 import java.io.FileNotFoundException;
-import java.util.concurrent.TimeUnit;
+
 
 @Slf4j
 public class Main {
@@ -27,25 +27,30 @@ public class Main {
         find("(//input[@type='tel'])[4]").sendKeys("200250");
 
         //Открываем выпадающий список "Выберите деятельность" и выбираем из предложенного и закрываем список чтобы не мешал
-        enableClick(find("//a[@id='pv_id_6_header']//span[1]"));
-        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-        enableClick(find("(//div[@class='p-radiobutton-box'])[2]"));
-        find("//a[@id='pv_id_6_header']//span[1]").click();
+        enableClick(find("//*[@id=\"pv_id_6_header\"]"));
+//        Thread.sleep(200);
+        enableClick(find("//*[@id=\"pv_id_6_content\"]/div/div/div/div/div/div[1]/div"));
+//        Thread.sleep(200);
+        enableClick(find("//*[@id=\"pv_id_6_header\"]"));
+
+        Thread.sleep(1000);
 
         find("(//input[@type='tel'])[5]").sendKeys("199"); //метры
-        enableClick(find("(//div[contains(@class,'app-checkbox mr-10')]//div)[2]")); //галка
+        enableClick(find("(//div[contains(@class,'app-checkbox mr-10')]//div)[2]"));
 
         scrollPage(); //слегка листаем страницу вниз
 
         //Действия чтобы нажать кнопку
-        find("//span[text()='Рассчитать']").click();
+        WebElement calculateButton = find("//button[@type='submit']//span");
+        enableClick(calculateButton);
         scrollPage(); //слегка листаем страницу вниз
 
-        //получаем сумму со страницы
-        String calcSum = find("//div[contains(@class,'fs-24 c-p')]").getText();
+        Thread.sleep(2000); //задержка перед закрытием страницы - ТОЛЬКО ДЛЯ РУЧНОГО ТЕСТИРОВАНИЯ!!!
+
+        String calcSum = find("//*[@id=\"form-calculate\"]/form/div/div[2]/div/div/div[3]/div[1]").getText();
         log.info("Sum of calculate: {}", calcSum);
 
-        //     Thread.sleep(2000); //задержка перед закрытием страницы - ТОЛЬКО ДЛЯ РУЧНОГО ТЕСТИРОВАНИЯ!!!
+        Thread.sleep(1000);
 
         //Внимание! Всегда надо закрывать тестовый браузер иначе программа будет работать некорректно
         driver.close(); //закрываем браузер чтобы освободить ресурсы.
